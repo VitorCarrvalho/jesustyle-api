@@ -1,0 +1,28 @@
+package com.jesustyle.application.entidade.pagarme;
+
+
+ 
+import com.jesustyle.application.entidade.pagamento.Customer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+ 
+public class Charge {
+    private String id;
+    private String code;
+    private String gateway_id;
+    private int amount;
+    private int paid_amount;
+    private String status;
+    private String currency;
+    private String payment_method;
+    private String paid_at;
+    private String created_at;
+    private String updated_at;
+    private Customer customer;
+    private last_transaction last_transaction;
+}
