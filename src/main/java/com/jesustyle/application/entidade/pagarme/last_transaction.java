@@ -1,6 +1,7 @@
 package com.jesustyle.application.entidade.pagarme;
 
  
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jesustyle.application.entidade.pagamento.Card;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
- 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class last_transaction {
     private String id;
     private String transaction_type;

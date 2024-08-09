@@ -1,6 +1,7 @@
 package com.jesustyle.application.entidade.pagarme;
 
  
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jesustyle.application.entidade.pagamento.Customer;
 import com.jesustyle.application.entidade.pagamento.Items;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
- 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Order {
     private String id;
     private String code;

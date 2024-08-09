@@ -15,6 +15,8 @@ import org.springframework.http.HttpEntity;
 public class TransporteServiceImpl implements TransporteService {
 
     private static final  String URL_BASE = "https://portal.kangu.com.br/tms";
+
+    private static final String KEY_TRANSPORTE = "d2fbdabecf0c19213a5865ff5b4e9f629cb315e9a7db5519388afe71940a5aa5";
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -30,7 +32,7 @@ public class TransporteServiceImpl implements TransporteService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.set("accept", "application/json");
-            headers.set("token", "d2fbdabecf0c19213a5865ff5b4e9f629cb315e9a7db5519388afe71940a5aa5");
+            headers.set("token", KEY_TRANSPORTE);
             headers.set("Content-Type", "application/json");
             headers.set("Cookie", "KANGUSESSID=p5ju2e8b0r7i9ef74fd94avmgn");
 
@@ -61,7 +63,7 @@ public class TransporteServiceImpl implements TransporteService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("accept", "application/json");
-        headers.set("token", "d2fbdabecf0c19213a5865ff5b4e9f629cb315e9a7db5519388afe71940a5aa5");
+        headers.set("token", KEY_TRANSPORTE);
 
         HttpEntity<String> entity = new HttpEntity<>(headers);
 

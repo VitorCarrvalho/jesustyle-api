@@ -1,7 +1,6 @@
 package com.jesustyle.application.controller;
 
 import com.jesustyle.application.entidade.transporte.Simulacao;
-import com.jesustyle.application.entidade.transporte.SimulacaoResp;
 import com.jesustyle.application.service.TransporteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
