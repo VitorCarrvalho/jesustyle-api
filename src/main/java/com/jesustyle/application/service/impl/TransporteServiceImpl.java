@@ -14,6 +14,7 @@ import org.springframework.http.HttpEntity;
 @Service
 public class TransporteServiceImpl implements TransporteService {
 
+    private static final  String URL_BASE = "https://portal.kangu.com.br/tms";
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -23,7 +24,8 @@ public class TransporteServiceImpl implements TransporteService {
 
     @Override
     public String simular(Simulacao simulacao) {
-        String url = "https://portal.kangu.com.br/tms/transporte/simular";
+
+        String url = URL_BASE + "/tms/transporte/simular";
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -51,5 +53,20 @@ public class TransporteServiceImpl implements TransporteService {
     @Override
     public String rastrear(Simulacao simulacao) {
         return null;
+    }
+
+    @Override
+    public String imprimirEtiqueta(String codRastreio) {
+        String url = URL_BASE + "/tms/transporte/imprimir-etiqueta/" + codRastreio;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accept", "application/json");
+        headers.set("token", "d2fbdabecf0c19213a5865ff5b4e9f629cb315e9a7db5519388afe71940a5aa5");
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        return response.getBody();
     }
 }
