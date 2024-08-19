@@ -27,7 +27,7 @@ public class TransporteServiceImpl implements TransporteService {
     @Override
     public String simular(Simulacao simulacao) {
 
-        String url = URL_BASE + "/tms/transporte/simular";
+        String url = URL_BASE + "/transporte/simular";
 
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -59,7 +59,7 @@ public class TransporteServiceImpl implements TransporteService {
 
     @Override
     public String imprimirEtiqueta(String codRastreio) {
-        String url = URL_BASE + "/tms/transporte/imprimir-etiqueta/" + codRastreio;
+        String url = URL_BASE + "/transporte/imprimir-etiqueta/" + codRastreio;
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("accept", "application/json");

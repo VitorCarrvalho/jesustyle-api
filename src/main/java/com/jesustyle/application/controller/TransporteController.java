@@ -26,8 +26,8 @@ public class TransporteController {
         return new ResponseEntity<>("Simulação temporariamente indisponível", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @GetMapping("/etiqueta")
-    public ResponseEntity<Object> cadastro(@RequestBody String codRastreio){
+    @GetMapping("/etiqueta/{codRastreio}")
+    public ResponseEntity<Object> cadastro(@PathVariable String codRastreio){
 
         var frete = transporteService.imprimirEtiqueta(codRastreio);
 
