@@ -38,7 +38,7 @@ public class PagamentoController {
        var pedidoCriado =  pagamento.criarPedido(pedido);
 
         if (Objects.nonNull(pedidoCriado) && pedidoCriado.getStatus().equals("paid")){
-         var retornoTransporte = transporteService.solicitar(pedidoCriado, pedidoDto.getReferencia());
+         var retornoTransporte = transporteService.solicitar(pedidoCriado, pedidoDto.getReferencia(), pedidoDto);
         return new ResponseEntity<>(pedidoCriado , HttpStatus.CREATED);
         }
 

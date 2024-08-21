@@ -26,7 +26,7 @@ public class EnviarEmailServiceImpl  {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            helper.setFrom("mailer@jesustyle.com.br");
+            helper.setFrom("mailer@jesustyleoficial.com.br");
             helper.setTo(order.getCustomer().getEmail());
             helper.setSubject("Jesustyle - Parabéns! Compra aprovada");
 

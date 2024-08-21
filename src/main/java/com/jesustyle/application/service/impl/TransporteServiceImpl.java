@@ -4,6 +4,7 @@ package com.jesustyle.application.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.jesustyle.application.entidade.pagamento.PedidoDTO;
 import com.jesustyle.application.entidade.pagarme.Order;
 import com.jesustyle.application.entidade.transporte.request.Simulacao;
 import com.jesustyle.application.entidade.transporte.response.SimulacaoResponse;
@@ -87,9 +88,9 @@ public class TransporteServiceImpl implements TransporteService {
     }
 
     @Override
-    public String solicitar(Order pedidoAprovado, String referencia) {
+    public String solicitar(Order pedidoAprovado, String referencia, PedidoDTO pedidoDto) {
         var solicitacaoTransporte =
-                mapOrderToTransporte.mapOrderToTransporteRequest(pedidoAprovado, referencia);
+                mapOrderToTransporte.mapOrderToTransporteRequest(pedidoAprovado, referencia, pedidoDto);
 
         String url = URL_BASE + "/transporte/solicitar";
 

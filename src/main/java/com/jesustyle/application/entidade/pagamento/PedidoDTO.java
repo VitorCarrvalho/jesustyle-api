@@ -19,9 +19,11 @@ public class PedidoDTO {
 
     public String id;
     public String code;
+    @JsonProperty("items")
     public List<Items> items;
     public Phone phone;
     public Phones phones;
+    @JsonProperty("customer")
     public Customer customer;
     public BillingAddress billingAddress;
     public Card card;

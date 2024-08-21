@@ -1,6 +1,7 @@
 package com.jesustyle.application.util;
 
 import com.jesustyle.application.entidade.pagamento.Items;
+import com.jesustyle.application.entidade.pagamento.PedidoDTO;
 import com.jesustyle.application.entidade.pagarme.Order;
 import com.jesustyle.application.entidade.transporte.solicitar.request.*;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Service
 public class MapOrderToTransporte {
-    public TransporteRequest mapOrderToTransporteRequest(Order order, String referencia) {
+    public TransporteRequest mapOrderToTransporteRequest(Order order, String referencia, PedidoDTO pedidoDto) {
 
 
         TransporteRequest transporteRequest = new TransporteRequest();
@@ -45,14 +46,20 @@ public class MapOrderToTransporte {
         Destinatario destinatario = new Destinatario();
         destinatario.setNome(order.getCustomer().getName());
         destinatario.setCnpjCpf(order.getCustomer().getDocument());
+
+        String endereco = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
+        String numero = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
+        String complemento = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
+        String bairro = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
+
         Endereco enderecoDestinatario = new Endereco(
-                order.getCharges().get(0).getLastTransaction().getCard().getBillingAddress().getLine_1(),
-                order.getCharges().get(0).getLastTransaction().getCard().getBillingAddress().getNumber(),
-                order.getCharges().get(0).getLastTransaction().getCard().getBillingAddress().getComplement(),
-                order.getCharges().get(0).getLastTransaction().getCard().getBillingAddress().getDistrict(),
-                order.getCharges().get(0).getLastTransaction().getCard().getBillingAddress().getZipCode(),
-                order.getCharges().get(0).getLastTransaction().getCard().getBillingAddress().getCity(),
-                order.getCharges().get(0).getLastTransaction().getCard().getBillingAddress().getState());
+                !endereco.isEmpty() ? endereco : "",
+                !numero.isEmpty() ? numero : "0",
+                !complemento.isEmpty() ? numero : "N/A",
+                !bairro.isEmpty() ? numero : "",
+                pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getZipCode(),
+                pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getCity(),
+                pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getState());
 
         destinatario.setEndereco(enderecoDestinatario);
         destinatario.setContato(order.getCustomer().getName());
@@ -61,21 +68,21 @@ public class MapOrderToTransporte {
         destinatario.setCelular(order.getCustomer().getPhones().getHome_phone().getArea_code() + order.getCustomer().getPhones().getHome_phone().getNumber());
         transporteRequest.setDestinatario(destinatario);
 
-//        // Volumes (Baseado nos itens do pedido)
-//        List<Volume> volumes = new ArrayList<>();
-//        for (Items item : order.getItems()) {
-//            Volume volume = new Volume();
-//            volume.setPeso(item.getQuantity());
-//            volume.setAltura(1);
-//            volume.setLargura(1);
-//            volume.setComprimento(1);
-//            volume.setTipo("C");
-//            volume.setProduto(item.getDescription());
-//            volume.setValor(item.getAmount() / 100.0);
-//            volume.setQuantidade(item.getQuantity());
-//            volumes.add(volume);
-//        }
-//        transporteRequest.setVolumes(volumes);
+        // Volumes (Baseado nos itens do pedido)
+        List<Volume> volumes = new ArrayList<>();
+        var ii = order.getItems().getFirst();
+            Volume volume = new Volume();
+            volume.setPeso(ii.getQuantity());
+            volume.setAltura(1);
+            volume.setLargura(1);
+            volume.setComprimento(1);
+            volume.setTipo("C");
+            volume.setProduto(ii.getDescription());
+            volume.setValor(ii.getAmount() / 100.0);
+            volume.setQuantidade(ii.getQuantity());
+            volumes.add(volume);
+
+        transporteRequest.setVolumes(volumes);
 
         // Produtos (Baseado nos itens do pedido)
         List<Produto> produtos = new ArrayList<>();
