@@ -17,11 +17,11 @@ public class EnviarEmailServiceImpl  {
 
     @Autowired
     private JavaMailSender mailSender;
-    public boolean enviar(Order order) {
-        return enviarEmail(order);
+    public boolean enviar(Order order, String response) {
+        return enviarEmail(order, response);
     }
 
-    private boolean enviarEmail(Order order){
+    private boolean enviarEmail(Order order, String response){
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -30,7 +30,7 @@ public class EnviarEmailServiceImpl  {
             helper.setTo(order.getCustomer().getEmail());
             helper.setSubject("Jesustyle - Parabéns! Compra aprovada");
 
-            String body = createEmailBody(order);
+            String body = createEmailBody(order, response);
 
             helper.setText(body, false);
 
@@ -42,7 +42,7 @@ public class EnviarEmailServiceImpl  {
         }
     }
 
-    public String createEmailBody(Order order) {
+    public String createEmailBody(Order order, String response) {
         StringBuilder body = new StringBuilder();
 
         body.append("Olá ").append(order.getCustomer().getName()).append(",\n\n");

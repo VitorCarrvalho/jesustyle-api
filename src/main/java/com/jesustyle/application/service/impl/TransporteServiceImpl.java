@@ -101,16 +101,16 @@ public class TransporteServiceImpl implements TransporteService {
         HttpEntity<Object> entity = new HttpEntity<>(solicitacaoTransporte, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-
+        var retornoSolicitacaoTransporte = response.getBody();
         if(response.getStatusCode().is2xxSuccessful()){
-            enviarEmail(pedidoAprovado);
+            enviarEmail(pedidoAprovado, retornoSolicitacaoTransporte);
         }
         return response.getBody();
 
     }
 
-    private void enviarEmail(Order pedidoAprovado) {
-        enviarEmailService.enviar(pedidoAprovado);
+    private void enviarEmail(Order pedidoAprovado, String response) {
+        enviarEmailService.enviar(pedidoAprovado, response);
     }
 
     @Override
