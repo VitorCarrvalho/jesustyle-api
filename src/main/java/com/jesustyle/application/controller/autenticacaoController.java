@@ -12,17 +12,17 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/usuario")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class autenticacaoController {
 
     @Autowired
     AutenticacaoService autenticacao;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestHeader String usuario, @RequestHeader String senha ){
+    public ResponseEntity<Object> login(@RequestHeader String usuario, @RequestHeader String senha ){
         var token = autenticacao.login(usuario, senha);
 
-        if(!token.isBlank()){
+        if(!token.get("token").isEmpty()){
             return new ResponseEntity<>(token, HttpStatus.OK);
         }
         return new ResponseEntity<>("Usuário ou senha inválidos", HttpStatus.UNAUTHORIZED);

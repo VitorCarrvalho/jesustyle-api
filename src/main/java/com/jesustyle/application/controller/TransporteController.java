@@ -14,13 +14,13 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/transporte")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @Tag(name = "Transporte", description = "Integração dos pedidos com a Kangu")
 public class TransporteController {
 
     @Autowired
     private TransporteService transporteService;
-    @GetMapping("/simular")
+    @PostMapping("/simular")
     public ResponseEntity<Object> cadastro(@RequestBody Simulacao simulacao){
 
         var frete = transporteService.simular(simulacao);

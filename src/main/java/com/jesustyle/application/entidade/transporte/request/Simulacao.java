@@ -1,6 +1,7 @@
 package com.jesustyle.application.entidade.transporte.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,9 @@ public class Simulacao {
     private String cepDestino;
     private float vlrMerc;
     private float pesoMerc;
+    @JsonProperty("volumes")
     private List<VolumeSimulacao> volumes;
+    @JsonProperty("produtos")
     private List<ProdutoSimulacao> produtos;
     private List<String> servicos;
     private String ordernar;

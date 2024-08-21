@@ -18,7 +18,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/pagamento")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @Tag(name = "Pagamento", description = "Gestão dos pagamentos")
 public class PagamentoController {
 
