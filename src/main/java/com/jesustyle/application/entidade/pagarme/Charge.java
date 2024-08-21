@@ -25,5 +25,5 @@ public class Charge {
     private String created_at;
     private String updated_at;
     private Customer customer;
-    private last_transaction last_transaction;
+    private last_transaction lastTransaction;
 }

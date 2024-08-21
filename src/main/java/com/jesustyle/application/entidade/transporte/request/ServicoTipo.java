@@ -1,4 +1,4 @@
-package com.jesustyle.application.entidade.transporte;
+package com.jesustyle.application.entidade.transporte.request;
 
 public enum ServicoTipo {
     E("Entrega Normal"),

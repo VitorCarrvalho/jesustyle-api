@@ -1,13 +1,14 @@
 package com.jesustyle.application.service;
 
-import com.jesustyle.application.entidade.transporte.Simulacao;
-import com.jesustyle.application.entidade.transporte.SimulacaoResp;
+import com.jesustyle.application.entidade.pagarme.Order;
+import com.jesustyle.application.entidade.transporte.request.Simulacao;
+import com.jesustyle.application.entidade.transporte.response.SimulacaoResponse;
 
 public interface TransporteService {
 
-    String simular(Simulacao simulacao);
+    SimulacaoResponse simular(Simulacao simulacao);
 
-    String solicitar(Simulacao simulacao);
+    String solicitar(Order ordemPedido, String referencia);
 
     String rastrear(Simulacao simulacao);
 

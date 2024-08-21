@@ -1,10 +1,11 @@
 package com.jesustyle.application.service.impl;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jesustyle.application.entidade.pagamento.Pedido;
 import com.jesustyle.application.entidade.pagarme.Order;
 import com.jesustyle.application.service.PagamentoService;
-import com.jesustyle.application.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.SimpleDateFormat;
 
 
 @Slf4j
@@ -25,9 +27,15 @@ public class PagamentoServiceImpl implements PagamentoService {
     private static final String AUTHORIZATION_KEY_BASE_64 = "c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZTo=";
 
     @Override
-    public Object criarPedido(Pedido pedido) throws IOException, InterruptedException {
+    public Order criarPedido(Pedido pedido) throws IOException, InterruptedException {
 
-        String pedidoString = convertOrderRequestToJson(pedido);
+        ObjectMapper mapper = new ObjectMapper();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        mapper.setDateFormat(dateFormat);
+        mapper.registerModule(new JavaTimeModule());
+
+        String pedidoString = mapper.writeValueAsString(pedido);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.pagar.me/core/v5/orders"))
@@ -40,7 +48,9 @@ public class PagamentoServiceImpl implements PagamentoService {
         var pedidoCriado = response.body();
         log.info("Pedido criado com sucesso: " + pedidoCriado);
 
-        return pedidoCriado;
+        var retornoPagarme = mapper.readValue(pedidoCriado, Order.class);
+
+        return retornoPagarme;
     }
 
     @Override
@@ -53,7 +63,4 @@ public class PagamentoServiceImpl implements PagamentoService {
         return null;
     }
 
-    private String convertOrderRequestToJson(Pedido orderRequest) {
-        return JsonUtil.toJson(orderRequest);
-    }
 }

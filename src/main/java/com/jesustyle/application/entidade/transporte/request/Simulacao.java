@@ -1,4 +1,4 @@
-package com.jesustyle.application.entidade.transporte;
+package com.jesustyle.application.entidade.transporte.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

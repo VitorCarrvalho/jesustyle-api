@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public interface PagamentoService {
 
-    Object criarPedido(Pedido pedido) throws IOException, InterruptedException;
+    Order criarPedido(Pedido pedido) throws IOException, InterruptedException;
 
     Order consultaPedido(String idOrder);
 

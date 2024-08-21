@@ -2,6 +2,7 @@ package com.jesustyle.application.entidade.pagamento;
 
  
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +25,6 @@ public class Card {
     private String type;
     private String created_at;
     private String updated_at;
-    private BillingAddress billing_address;
+    @JsonProperty("billing_address")
+    private BillingAddress billingAddress;
 }

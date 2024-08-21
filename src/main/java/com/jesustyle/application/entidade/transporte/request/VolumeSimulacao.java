@@ -1,4 +1,4 @@
-package com.jesustyle.application.entidade.transporte;
+package com.jesustyle.application.entidade.transporte.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProdutoSimulacao {
+public class VolumeSimulacao {
     private float peso;
     private float altura;
     private float largura;
     private float comprimento;
+    private String tipo = "C"; // Padrão 'C'
     private float valor;
     private int quantidade;
 }
