@@ -19,8 +19,8 @@ public class autenticacaoController {
     AutenticacaoService autenticacao;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestHeader String usuario, @RequestHeader String senha ){
-        var token = autenticacao.login(usuario, senha);
+    public ResponseEntity<Object> login(@RequestHeader String email, @RequestHeader String senha ){
+        var token = autenticacao.login(email, senha);
 
         if(!token.get("token").isEmpty()){
             return new ResponseEntity<>(token, HttpStatus.OK);

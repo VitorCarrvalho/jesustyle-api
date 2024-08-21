@@ -1,14 +1,21 @@
-package com.jesustyle.application.entidade.usuario;
+package com.jesustyle.application.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
 
 
 @Data
-public class Usuario {
+@Entity
+@Table(name = "TabUsuario")
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UsuarioEntity {
 
+    @Id
     public int codigo;
     public String nome;
     @JsonIgnoreProperties(ignoreUnknown = true)

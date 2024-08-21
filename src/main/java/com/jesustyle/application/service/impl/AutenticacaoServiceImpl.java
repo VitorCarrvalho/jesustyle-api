@@ -1,23 +1,72 @@
 package com.jesustyle.application.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jesustyle.application.entidade.usuario.Usuario;
+import com.jesustyle.application.repository.UsuarioRepository;
+import com.jesustyle.application.repository.entity.UsuarioEntity;
 import com.jesustyle.application.service.AutenticacaoService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
+@Slf4j
 @Service
 public class AutenticacaoServiceImpl implements AutenticacaoService {
 
 
-    @Override
-    public Map<String, String> login(String usuario, String senha) {
-        Map<String, String> token = new HashMap<>();
-        token.put("token", "k2al0hJIazt4m4RmBjLCpu5vhHDHx5rJw6oMBtzZkKRkvZ0IUKugdcDucedza5CFkjMsfBQmGMv9OwBXFFwiZsrQfTKz2AuTFJG6hLC16OCt");
+    private final String secretKey = "75319461dba2144e18b69fc2e4f4553ffbda687f2b10cadc64a15cad245aa7bc";
+    private final long validityInMilliseconds = 86400;
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
-        return token;
+    @Override
+    public Map<String, String> login(String email, String senha) {
+        UsuarioEntity response = usuarioRepository.findByEmail(email);
+        Map<String, String> tokenGerado = new HashMap<>();
+
+        if (response.getEmail().equalsIgnoreCase(email) && response.getSenha().equals(senha)) {
+            String token = generateToken(response);
+            tokenGerado.put("token", token);
+        }
+
+        tokenGerado.put("TipoUsuario", response.getTipoUsuario());
+        tokenGerado.put("codigo", String.valueOf(response.getCodigo()));
+        tokenGerado.put("nome", response.getNome());
+        tokenGerado.put("email", response.getEmail());
+        tokenGerado.put("telefone", response.getTelefone());
+        tokenGerado.put("dataNascimento", String.valueOf(response.getDataNascimento()));
+        return tokenGerado;
+    }
+
+    private String generateToken(UsuarioEntity response) {
+
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+
+        Map<String, Object> claims = new HashMap<>();
+
+        if(response.getTipoUsuario().equals("Admin")){
+            claims.put("tipoUsuario", "Admin");
+        }else {
+            claims.put("tipoUsuario", "user");
+        }
+
+        return Jwts.builder()
+                .setSubject(String.valueOf(response.getCodigo()))
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
     }
 
     @Override
@@ -27,6 +76,29 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 
     @Override
     public Object cadastro(Usuario usuario) {
-        return null;
+        ObjectMapper mapper = new ObjectMapper();
+        var usuarioEntity = mapper.convertValue(usuario, UsuarioEntity.class);
+        var retorno = usuarioRepository.save(usuarioEntity);
+        return retorno;
+    }
+
+    public Object buscarUsuario(int idUsuario) {
+        return usuarioRepository.findById(idUsuario);
+    }
+
+    public Object atualizarUsuario(Usuario usuario) {
+        ObjectMapper mapper = new ObjectMapper();
+        var usuarioEntity = mapper.convertValue(usuario, UsuarioEntity.class);
+
+        var retorno = usuarioRepository.findById(usuario.getCodigo());
+
+        UsuarioEntity usuarioAtualizado = new UsuarioEntity();
+
+        if (retorno.isPresent()) {
+            usuarioAtualizado = usuarioRepository.save(usuarioEntity);
+        }
+
+        log.info("Usuário atualizado com sucesso: " + usuarioAtualizado.getCodigo());
+        return mapper.convertValue(usuarioAtualizado, UsuarioEntity.class);
     }
 }

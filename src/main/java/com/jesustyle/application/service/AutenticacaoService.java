@@ -6,9 +6,13 @@ import java.util.Map;
 
 public interface AutenticacaoService {
 
-    Map<String, String> login(String usuario, String senha);
+    Map<String, String> login(String email, String senha);
 
     boolean recuperarSenha(String email);
 
     Object cadastro(Usuario usuario);
+
+    Object buscarUsuario(int idUsuario);
+
+    Object atualizarUsuario(Usuario usuario);
 }
