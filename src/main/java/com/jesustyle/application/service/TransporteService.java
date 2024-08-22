@@ -13,5 +13,5 @@ public interface TransporteService {
 
     String rastrear(Simulacao simulacao);
 
-    String imprimirEtiqueta(String codRastreio);
+    String buscaRastreio(String codRastreio);
 }

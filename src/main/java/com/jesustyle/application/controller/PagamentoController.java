@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -35,22 +37,25 @@ public class PagamentoController {
     public ResponseEntity<Object> pedido(@RequestBody PedidoDTO pedidoDto) throws IOException, InterruptedException {
         Pedido pedido = mapper.convertValue(pedidoDto, Pedido.class);
 
-       var pedidoCriado =  pagamento.criarPedido(pedido);
+        var pedidoCriado = pagamento.criarPedido(pedido);
 
-        if (Objects.nonNull(pedidoCriado) && pedidoCriado.getStatus().equals("paid")){
-         var retornoTransporte = transporteService.solicitar(pedidoCriado, pedidoDto.getReferencia(), pedidoDto);
-        return new ResponseEntity<>(pedidoCriado , HttpStatus.CREATED);
+        Map<String, Object> retornoPagamento = new HashMap<>();
+        retornoPagamento.put("pagamento", pedidoCriado);
+
+        if (Objects.nonNull(pedidoCriado) && pedidoCriado.getStatus().equals("paid")) {
+            var retornoTransporte = transporteService.solicitar(pedidoCriado, pedidoDto.getReferencia(), pedidoDto);
+            retornoPagamento.put("transporte", retornoTransporte);
+            return new ResponseEntity<>(retornoPagamento, HttpStatus.CREATED);
         }
-
 
         return new ResponseEntity<>("Erro ao processo novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/pedido/{idPedido}")
     public ResponseEntity<Object> consultaPedido(@RequestParam String idPedido) {
-        var pedidoCriado =  pagamento.consultaPedido(idPedido);
+        var pedidoCriado = pagamento.consultaPedido(idPedido);
 
-        if (Objects.nonNull(pedidoCriado)){
+        if (Objects.nonNull(pedidoCriado)) {
             return new ResponseEntity<>(pedidoCriado, HttpStatus.CREATED);
         }
         return new ResponseEntity<>("Erro ao consultar novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -58,9 +63,9 @@ public class PagamentoController {
 
     @PutMapping("/pedido/cancelar/{idPedido}")
     public ResponseEntity<Object> cancelaPedido(@RequestParam String idPedido) {
-        var pedidoCriado =  pagamento.consultaPedido(idPedido);
+        var pedidoCriado = pagamento.consultaPedido(idPedido);
 
-        if (Objects.nonNull(pedidoCriado)){
+        if (Objects.nonNull(pedidoCriado)) {
             return new ResponseEntity<>(pedidoCriado, HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>("Erro ao cancelar novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);

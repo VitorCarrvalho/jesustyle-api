@@ -119,7 +119,7 @@ public class TransporteServiceImpl implements TransporteService {
     }
 
     @Override
-    public String imprimirEtiqueta(String codRastreio) {
+    public String buscaRastreio(String codRastreio) {
         String url = URL_BASE + "/transporte/imprimir-etiqueta/" + codRastreio;
 
         HttpHeaders headers = new HttpHeaders();

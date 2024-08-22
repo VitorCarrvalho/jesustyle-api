@@ -33,9 +33,9 @@ public class TransporteController {
     }
 
     @GetMapping("/rastreio/{codRastreio}")
-    public ResponseEntity<Object> cadastro(@PathVariable String codRastreio){
+    public ResponseEntity<Object> getRastreio(@PathVariable String codRastreio){
 
-        var frete = transporteService.imprimirEtiqueta(codRastreio);
+        var frete = transporteService.buscaRastreio(codRastreio);
 
         if(Objects.nonNull(frete)){
             return new ResponseEntity<>(frete, HttpStatus.OK);
