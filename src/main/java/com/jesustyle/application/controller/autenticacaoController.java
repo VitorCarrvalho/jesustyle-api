@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/usuario")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://jesustyleoficial.com.br", allowCredentials = "true")
 public class autenticacaoController {
 
     @Autowired

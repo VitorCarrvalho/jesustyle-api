@@ -14,7 +14,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping("/transporte")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://jesustyleoficial.com.br", allowCredentials = "true")
 @Tag(name = "Transporte", description = "Integração dos pedidos com a Kangu")
 public class TransporteController {
 

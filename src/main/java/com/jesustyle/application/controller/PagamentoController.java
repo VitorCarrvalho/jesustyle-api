@@ -20,7 +20,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/pagamento")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://jesustyleoficial.com.br", allowCredentials = "true")
 @Tag(name = "Pagamento", description = "Gestão dos pagamentos")
 public class PagamentoController {
 
