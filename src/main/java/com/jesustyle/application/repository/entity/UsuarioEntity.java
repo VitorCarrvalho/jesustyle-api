@@ -3,9 +3,8 @@ package com.jesustyle.application.repository.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
 import lombok.Data;
 
 
@@ -16,7 +15,9 @@ import lombok.Data;
 public class UsuarioEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int codigo;
+
     public String nome;
     @JsonIgnoreProperties(ignoreUnknown = true)
     public Date dataNascimento;
