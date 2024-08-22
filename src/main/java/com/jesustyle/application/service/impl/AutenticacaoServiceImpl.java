@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 @Slf4j
@@ -54,9 +53,9 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 
         Map<String, Object> claims = new HashMap<>();
 
-        if(response.getTipoUsuario().equals("Admin")){
+        if (response.getTipoUsuario().equals("Admin")) {
             claims.put("tipoUsuario", "Admin");
-        }else {
+        } else {
             claims.put("tipoUsuario", "user");
         }
 
@@ -76,9 +75,16 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 
     @Override
     public Object cadastro(Usuario usuario) {
-        ObjectMapper mapper = new ObjectMapper();
-        var usuarioEntity = mapper.convertValue(usuario, UsuarioEntity.class);
+
+        var usuarioEntity = UsuarioEntity.builder()
+                .nome(usuario.getNome())
+                .email(usuario.getEmail())
+                .dataNascimento(usuario.getDataNascimento())
+                .senha(usuario.getSenha())
+                .tipoUsuario("USER")
+                .build();
         var retorno = usuarioRepository.save(usuarioEntity);
+        log.info("Usuário atualizado com sucesso: " + retorno.getCodigo());
         return retorno;
     }
 
@@ -92,13 +98,13 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 
         var retorno = usuarioRepository.findById(usuario.getCodigo());
 
-        UsuarioEntity usuarioAtualizado = new UsuarioEntity();
-
         if (retorno.isPresent()) {
-            usuarioAtualizado = usuarioRepository.save(usuarioEntity);
+            var rr = usuarioRepository.save(usuarioEntity);
+            log.info("Usuário atualizado com sucesso: " + rr.getCodigo());
+            return rr;
         }
+        log.error("Usuário inválido.");
 
-        log.info("Usuário atualizado com sucesso: " + usuarioAtualizado.getCodigo());
-        return mapper.convertValue(usuarioAtualizado, UsuarioEntity.class);
+        return null;
     }
 }

@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.Date;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 
+@Builder
 @Data
 @Entity
 @Table(name = "TabUsuario")

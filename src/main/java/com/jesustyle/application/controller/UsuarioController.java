@@ -19,12 +19,12 @@ public class UsuarioController {
     private AutenticacaoService autenticacaoService;
 
     @PostMapping("/cadastro")
-    public ResponseEntity<String> detalheUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<Object> detalheUsuario(@RequestBody Usuario usuario){
 
         Object solicitacao = autenticacaoService.cadastro(usuario);
 
         if(Objects.nonNull(solicitacao)){
-            return new ResponseEntity<>("Usuário cadastrado com sucesso! ", HttpStatus.CREATED);
+            return new ResponseEntity<>(solicitacao, HttpStatus.CREATED);
         }
         return new ResponseEntity<>("Erro ao tentar efetuar o cadastro, por favor tenta novamente mais tarde.", HttpStatus.BAD_REQUEST);
     }
