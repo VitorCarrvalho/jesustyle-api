@@ -41,7 +41,7 @@ public class PagamentoServiceImpl implements PagamentoService {
                 .uri(URI.create("https://api.pagar.me/core/v5/orders"))
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
-                .header("authorization", "Basic c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZTo=")
+                .header("authorization", "Basic c2tfNTNiM2YzMzA2N2MyNDEwYmEwOWFiMWNmODA1OGE4MWY=")
                 .method("POST", HttpRequest.BodyPublishers.ofString(pedidoString))
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
