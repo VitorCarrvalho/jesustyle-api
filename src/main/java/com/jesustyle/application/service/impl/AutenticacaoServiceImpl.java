@@ -28,6 +28,7 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 
     @Override
     public Map<String, String> login(String email, String senha) {
+
         UsuarioEntity response = usuarioRepository.findByEmail(email);
         Map<String, String> tokenGerado = new HashMap<>();
 
@@ -76,13 +77,13 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
     @Override
     public Object cadastro(Usuario usuario) {
 
-        var usuarioEntity = UsuarioEntity.builder()
-                .nome(usuario.getNome())
-                .email(usuario.getEmail())
-                .dataNascimento(usuario.getDataNascimento())
-                .senha(usuario.getSenha())
-                .tipoUsuario("USER")
-                .build();
+        UsuarioEntity usuarioEntity = new UsuarioEntity();
+        usuarioEntity.setEmail(usuario.getEmail());
+
+        usuarioEntity.setDataNascimento(usuario.getDataNascimento());
+        usuarioEntity.setSenha(usuario.getSenha());
+        usuarioEntity.setTipoUsuario("USER");
+        usuarioEntity.setNome(usuario.getNome());
         var retorno = usuarioRepository.save(usuarioEntity);
         log.info("Usuário atualizado com sucesso: " + retorno.getCodigo());
         return retorno;
