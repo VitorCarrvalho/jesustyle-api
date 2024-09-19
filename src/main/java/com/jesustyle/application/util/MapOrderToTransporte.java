@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class MapOrderToTransporte {
-    public TransporteRequest mapOrderToTransporteRequest(Order order, String referencia, PedidoDTO pedidoDto) {
 
+    public TransporteRequest mapOrderToTransporteRequest(Order order, String referencia, PedidoDTO pedidoDto) {
 
         TransporteRequest transporteRequest = new TransporteRequest();
 
@@ -47,19 +46,23 @@ public class MapOrderToTransporte {
         destinatario.setNome(order.getCustomer().getName());
         destinatario.setCnpjCpf(order.getCustomer().getDocument());
 
-        String endereco = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
-        String numero = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
-        String complemento = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
-        String bairro = pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getLine_1();
+        // Atualizar para usar get(0) em vez de getFirst()
+        var payment = pedidoDto.getPayments().get(0).getCredit_card().getCard().getBillingAddress();
+
+        String endereco = payment.getLine_1();
+        String numero = payment.getLine_1();
+        String complemento = payment.getLine_1();
+        String bairro = payment.getLine_1();
 
         Endereco enderecoDestinatario = new Endereco(
                 !endereco.isEmpty() ? endereco : "",
                 !numero.isEmpty() ? numero : "0",
-                !complemento.isEmpty() ? numero : "N/A",
-                !bairro.isEmpty() ? numero : "",
-                pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getZipCode(),
-                pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getCity(),
-                pedidoDto.getPayments().getFirst().getCredit_card().getCard().getBillingAddress().getState());
+                !complemento.isEmpty() ? complemento : "N/A",
+                !bairro.isEmpty() ? bairro : "",
+                payment.getZipCode(),
+                payment.getCity(),
+                payment.getState()
+        );
 
         destinatario.setEndereco(enderecoDestinatario);
         destinatario.setContato(order.getCustomer().getName());
@@ -70,17 +73,17 @@ public class MapOrderToTransporte {
 
         // Volumes (Baseado nos itens do pedido)
         List<Volume> volumes = new ArrayList<>();
-        var ii = order.getItems().getFirst();
-            Volume volume = new Volume();
-            volume.setPeso(ii.getQuantity());
-            volume.setAltura(1);
-            volume.setLargura(1);
-            volume.setComprimento(1);
-            volume.setTipo("C");
-            volume.setProduto(ii.getDescription());
-            volume.setValor(ii.getAmount() / 100.0);
-            volume.setQuantidade(ii.getQuantity());
-            volumes.add(volume);
+        var firstItem = order.getItems().get(0); // Renomeado para firstItem
+        Volume volume = new Volume();
+        volume.setPeso(firstItem.getQuantity());
+        volume.setAltura(1);
+        volume.setLargura(1);
+        volume.setComprimento(1);
+        volume.setTipo("C");
+        volume.setProduto(firstItem.getDescription());
+        volume.setValor(firstItem.getAmount() / 100.0);
+        volume.setQuantidade(firstItem.getQuantity());
+        volumes.add(volume);
 
         transporteRequest.setVolumes(volumes);
 
@@ -113,6 +116,7 @@ public class MapOrderToTransporte {
 
         return transporteRequest;
     }
+
     private double calculateTotalWeight(List<Items> items) {
         double totalWeight = 0;
         for (Items item : items) {
