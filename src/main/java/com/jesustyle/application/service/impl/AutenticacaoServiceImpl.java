@@ -26,6 +26,9 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public Map<String, String> login(String email, String senha) {
 
@@ -94,18 +97,24 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
     }
 
     public Object atualizarUsuario(Usuario usuario) {
-        ObjectMapper mapper = new ObjectMapper();
-        var usuarioEntity = mapper.convertValue(usuario, UsuarioEntity.class);
 
         var retorno = usuarioRepository.findById(usuario.getCodigo());
 
         if (retorno.isPresent()) {
+
+            UsuarioEntity usuarioEntity = new UsuarioEntity();
+            usuarioEntity.setCodigo(usuario.getCodigo());
+            usuarioEntity.setTelefone(usuario.getTelefone());
+            usuarioEntity.setCpf(usuario.getCpf());
+            usuarioEntity.setSenha(usuario.getSenha());
+            usuarioEntity.setNome(usuario.getNome());
+            usuarioEntity.setDataNascimento(usuario.getDataNascimento());
+
             var rr = usuarioRepository.save(usuarioEntity);
             log.info("Usuário atualizado com sucesso: " + rr.getCodigo());
             return rr;
         }
         log.error("Usuário inválido.");
-
         return null;
     }
 }

@@ -23,7 +23,12 @@ public class PagamentoServiceImpl implements PagamentoService {
 
 
     private static final String PAGARME_API_URL = "https://api.pagar.me/core/v5/orders";
+
+
     private static final String AUTHORIZATION_KEY = "sk_test_4e27008e14c24164bad6e7fdbfdd9dee";
+    //PRD
+    // private static final String AUTHORIZATION_KEY_BASE_64 = "c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZTo=";
+    //DEV
     private static final String AUTHORIZATION_KEY_BASE_64 = "c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZTo=";
 
     @Override
