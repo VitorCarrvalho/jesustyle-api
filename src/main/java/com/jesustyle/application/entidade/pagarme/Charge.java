@@ -1,7 +1,7 @@
 package com.jesustyle.application.entidade.pagarme;
 
 
- 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jesustyle.application.entidade.pagamento.Customer;
 import lombok.AllArgsConstructor;

@@ -8,6 +8,7 @@ import com.jesustyle.application.entidade.pagamento.PedidoDTO;
 import com.jesustyle.application.entidade.pagarme.Order;
 import com.jesustyle.application.entidade.transporte.request.Simulacao;
 import com.jesustyle.application.entidade.transporte.response.SimulacaoResponse;
+import com.jesustyle.application.repository.entity.PedidoEntity;
 import com.jesustyle.application.service.TransporteService;
 import com.jesustyle.application.util.EnviarEmailServiceImpl;
 import com.jesustyle.application.util.MapOrderToTransporte;
@@ -88,7 +89,7 @@ public class TransporteServiceImpl implements TransporteService {
     }
 
     @Override
-    public String solicitar(Order pedidoAprovado, String referencia, PedidoDTO pedidoDto) {
+    public String solicitar(PedidoEntity pedidoAprovado, String referencia, PedidoDTO pedidoDto) {
         var solicitacaoTransporte =
                 mapOrderToTransporte.mapOrderToTransporteRequest(pedidoAprovado, referencia, pedidoDto);
 
@@ -109,11 +110,10 @@ public class TransporteServiceImpl implements TransporteService {
 
     }
 
-    private void enviarEmail(Order pedidoAprovado, String response) {
+    private void enviarEmail(PedidoEntity pedidoAprovado, String response) {
         enviarEmailService.enviar(pedidoAprovado, response);
     }
 
-    @Override
     public String rastrear(Simulacao simulacao) {
         return null;
     }

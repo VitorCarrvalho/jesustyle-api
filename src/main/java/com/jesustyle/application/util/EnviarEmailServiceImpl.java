@@ -2,6 +2,7 @@ package com.jesustyle.application.util;
 
 import com.jesustyle.application.entidade.pagamento.Items;
 import com.jesustyle.application.entidade.pagarme.Order;
+import com.jesustyle.application.repository.entity.PedidoEntity;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +18,11 @@ public class EnviarEmailServiceImpl  {
 
     @Autowired
     private JavaMailSender mailSender;
-    public boolean enviar(Order order, String response) {
+    public boolean enviar(PedidoEntity order, String response) {
         return enviarEmail(order, response);
     }
 
-    private boolean enviarEmail(Order order, String response){
+    private boolean enviarEmail(PedidoEntity order, String response){
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -42,7 +43,7 @@ public class EnviarEmailServiceImpl  {
         }
     }
 
-    public String createEmailBody(Order order, String response) {
+    public String createEmailBody(PedidoEntity order, String response) {
         StringBuilder body = new StringBuilder();
 
         body.append("Olá ").append(order.getCustomer().getName()).append(",\n\n");
@@ -66,9 +67,9 @@ public class EnviarEmailServiceImpl  {
         body.append("Nome: ").append(order.getCustomer().getName()).append("\n");
         body.append("Email: ").append(order.getCustomer().getEmail()).append("\n");
         body.append("CPF/CNPJ: ").append(order.getCustomer().getDocument()).append("\n");
-        body.append("Telefone: +").append(order.getCustomer().getPhones().getHome_phone().getCountry_code())
-                .append(" (").append(order.getCustomer().getPhones().getHome_phone().getArea_code()).append(") ")
-                .append(order.getCustomer().getPhones().getHome_phone().getNumber()).append("\n");
+        body.append("Telefone: +").append(order.getCustomer().getPhones().getHomePhone().getAreaCode())
+                .append(" (").append(order.getCustomer().getPhones().getHomePhone().getAreaCode()).append(") ")
+                .append(order.getCustomer().getPhones().getHomePhone().getNumber()).append("\n");
 
         body.append("\n");
 

@@ -1,18 +1,14 @@
 package com.jesustyle.application.entidade.pagamento;
 
- 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Embeddable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Phones {
-
-    @JsonProperty("home_phone")
-    private Phone home_phone;
+    private Phone homePhone; // Make sure Phone is also properly defined
 }

@@ -2,12 +2,13 @@ package com.jesustyle.application.service;
 
 import com.jesustyle.application.entidade.pagamento.Pedido;
 import com.jesustyle.application.entidade.pagarme.Order;
+import com.jesustyle.application.repository.entity.PedidoEntity;
 
 import java.io.IOException;
 
 public interface PagamentoService {
 
-    Order criarPedido(Pedido pedido) throws IOException, InterruptedException;
+    PedidoEntity criarPedido(Pedido pedido) throws IOException, InterruptedException;
 
     Order consultaPedido(String idOrder);
 
