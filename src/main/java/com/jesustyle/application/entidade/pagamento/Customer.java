@@ -2,19 +2,19 @@ package com.jesustyle.application.entidade.pagamento;
 
  
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "custumer")
 public class Customer {
     @Id
     private Long id;
@@ -25,5 +25,8 @@ public class Customer {
     private String delinquent;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
+
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
     private Phones phones;
 }

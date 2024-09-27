@@ -1,14 +1,23 @@
 package com.jesustyle.application.entidade.pagamento;
 
-import jakarta.persistence.Embeddable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Embeddable
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "phones")
 public class Phones {
+
+    @Id
+    private long id;
+
+    @OneToMany(mappedBy = "custumer", cascade = CascadeType.ALL)
+    private String idCustumer;
     private Phone homePhone; // Make sure Phone is also properly defined
 }
