@@ -1,3 +1,4 @@
+// BillingAddress.java
 package com.jesustyle.application.entidade.pagamento;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "billing_addresses")
 public class BillingAddress {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

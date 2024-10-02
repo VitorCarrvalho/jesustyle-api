@@ -20,35 +20,39 @@ public class Charge {
     private Long id;
 
     private String code;
-    private String gateway_id;
+
+    @Column(name = "gateway_id")
+    private String gatewayId; // Alterado para camelCase
+
     private int amount;
-    private int paid_amount;
+    private int paidAmount; // Alterado para camelCase
     private String status;
     private String currency;
-    private String payment_method;
-    private String paid_at;
-    private String created_at;
-    private String updated_at;
+
+    @Column(name = "payment_method")
+    private String paymentMethod; // Alterado para camelCase
+
+    @Column(name = "paid_at")
+    private String paidAt; // Alterado para camelCase
+
+    @Column(name = "created_at")
+    private String createdAt; // Alterado para camelCase
+
+    @Column(name = "updated_at")
+    private String updatedAt; // Alterado para camelCase
 
     @ManyToOne
     private Customer customer;
 
     @ManyToOne
-    private last_transaction lastTransaction; // Correct class name
+    private LastTransaction lastTransaction; // Nome correto da classe
 
-    @ManyToOne // Add this to link back to PedidoEntity
-    private PedidoEntity pedidoEntity; // Ensure this matches the reference in PedidoEntity
+    @ManyToOne // Adicione isso para vincular de volta ao PedidoEntity
+    private PedidoEntity pedidoEntity; // Verifique se isso corresponde à referência em PedidoEntity
 
-    @Embedded // Assuming gateway_response is not an entity
-    private gateway_response gateway_response; // Ensure this matches the refer
+    @Embedded // Presumindo que gateway_response não é uma entidade
+    private GatewayResponse gatewayResponse; // Alterado para camelCase
 
-
-    @Embedded // Assuming antifraud_response is not an entity
-    private AntifraudResponse antifraud_response; // Ensure this matches the refer
-
-
+    @Embedded // Presumindo que antifraud_response não é uma entidade
+    private AntifraudResponse antifraudResponse; // Alterado para camelCase
 }
-
-
-
-

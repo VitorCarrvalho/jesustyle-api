@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,7 +43,8 @@ public class Card {
     @JsonProperty("updated_at")
     private String updatedAt;
 
-    // Endereço de cobrança
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "billing_address_id") // ou o nome da coluna que você deseja
     private BillingAddress billingAddress;
+
 }

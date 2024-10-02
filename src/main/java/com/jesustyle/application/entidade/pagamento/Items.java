@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
 
@@ -18,8 +18,10 @@ import java.time.LocalDateTime;
 @Table(name = "items")
 public class Items {
 
-    @Id
-    private String id;
+    @Id // Adiciona a anotação para o campo ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Chave primária
+
 
     @ManyToOne
     @JoinColumn(name = "id_pedido", nullable = false)

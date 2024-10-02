@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class gateway_response {
+public class GatewayResponse {
 
     public String code;
     public List<Object> errors;

@@ -83,8 +83,8 @@ public class EnviarEmailServiceImpl  {
 
 
         body.append("Detalhes do Pagamento:\n");
-        body.append("Método de Pagamento: ").append(order.getCharges().get(0).getPayment_method()).append("\n");
-        body.append("Total Pago: R$ ").append(String.format("%.2f", order.getCharges().get(0).getPaid_amount() / 100.0)).append("\n");
+        body.append("Método de Pagamento: ").append(order.getCharges().get(0).getPaymentMethod()).append("\n");
+        body.append("Total Pago: R$ ").append(String.format("%.2f", order.getCharges().get(0).getAmount() / 100.0)).append("\n");
 
         body.append("\n");
 
