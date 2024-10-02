@@ -1,8 +1,9 @@
 package com.jesustyle.application.entidade.pagarme;
 
- 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jesustyle.application.entidade.pagamento.Card;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class last_transaction {
+@Entity // Add this annotation
+public class last_transaction { // Rename class to follow Java naming conventions
+
+    @Id // Add this annotation for the identifier
     private String id;
+
     private String transaction_type;
     private String gateway_id;
     private int amount;
@@ -31,7 +36,7 @@ public class last_transaction {
     private String funding_source;
     private String created_at;
     private String updated_at;
-    private gateway_response gateway_response;
-    private antifraud_response antifraud_response;
+    private gateway_response gateway_response; // Ensure proper casing
+    private AntifraudResponse antifraud_response; // Ensure proper casing
     private Object metadata;
 }

@@ -3,8 +3,8 @@ package com.jesustyle.application.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jesustyle.application.entidade.pagamento.Pedido;
 import com.jesustyle.application.entidade.pagarme.Order;
+import com.jesustyle.application.entidade.transporte.solicitar.request.Pedido;
 import com.jesustyle.application.repository.PedidoRepository;
 import com.jesustyle.application.repository.entity.PedidoEntity;
 import com.jesustyle.application.service.PagamentoService;

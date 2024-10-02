@@ -1,7 +1,7 @@
 package com.jesustyle.application.entidade.pagamento;
 
- 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
+@Table(name = "credit_cards")
 public class CreditCard {
-    private int installments; //número de parcelas
-    private String statement_descriptor; //descrição do estabelecimento
-    private Card card;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private int installments; // Número de parcelas
+    private String statementDescriptor; // Descrição do estabelecimento
+
+    @Embedded
+    private Card card; // Classe Card embutida
+
+    // Relacionamento com BillingAddress, se necessário
 }

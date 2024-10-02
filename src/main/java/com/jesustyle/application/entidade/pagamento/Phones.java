@@ -17,7 +17,9 @@ public class Phones {
     @Id
     private long id;
 
-    @OneToMany(mappedBy = "custumer", cascade = CascadeType.ALL)
-    private String idCustumer;
-    private Phone homePhone; // Make sure Phone is also properly defined
+    @ManyToOne
+    @JoinColumn(name = "custumer_id") // Substitua por como você nomeou a chave estrangeira na tabela
+    private Customer customer; // Altere de String para Customer
+
+    private Phone homePhone; // Certifique-se de que Phone também está devidamente definido
 }

@@ -29,9 +29,10 @@ import java.util.*;
 @Service
 public class TransporteServiceImpl implements TransporteService {
 
-    private static final  String URL_BASE = "https://portal.kangu.com.br/tms";
+    private static final String URL_BASE = "https://portal.kangu.com.br/tms";
 
-    private static final String KEY_TRANSPORTE = "d2fbdabecf0c19213a5865ff5b4e9f629cb315e9a7db5519388afe71940a5aa5";
+    //    private static final String KEY_TRANSPORTE = "d2fbdabecf0c19213a5865ff5b4e9f629cb315e9a7db5519388afe71940a5aa5";
+    private static final String KEY_TRANSPORTE = "237e59d68a20685a147d8a66ebf9af385830bee3402e73376afd5e44042db543";
     private final RestTemplate restTemplate;
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -73,18 +74,18 @@ public class TransporteServiceImpl implements TransporteService {
             List<SimulacaoResponse> simulacoesList = Arrays.asList(simulacoesArray);
 
             SimulacaoResponse simulacaoEscolhida = new SimulacaoResponse();
-            for (SimulacaoResponse s : simulacoesList){
-                if(s.getIdTransp() == 9900 || s.getIdTransp() == 28719){
+            for (SimulacaoResponse s : simulacoesList) {
+                if (s.getIdTransp() == 9900 || s.getIdTransp() == 28719) {
                     simulacaoEscolhida = s;
                     break;
                 }
             }
             simulacaoEscolhida.setPrazoEnt(simulacaoEscolhida.getPrazoEnt() + 2);
-            log.info("Tarifa selecionada: "+ simulacaoEscolhida.getReferencia());
+            log.info("Tarifa selecionada: " + simulacaoEscolhida.getReferencia());
             return simulacaoEscolhida;
 
         } catch (Exception e) {
-            throw new RuntimeException("Deu ruim família, e o erro foi esse ai ó: ",e);
+            throw new RuntimeException("Deu ruim família, e o erro foi esse ai ó: ", e);
         }
     }
 
@@ -103,7 +104,7 @@ public class TransporteServiceImpl implements TransporteService {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
         var retornoSolicitacaoTransporte = response.getBody();
-        if(response.getStatusCode().is2xxSuccessful()){
+        if (response.getStatusCode().is2xxSuccessful()) {
             enviarEmail(pedidoAprovado, retornoSolicitacaoTransporte);
         }
         return response.getBody();

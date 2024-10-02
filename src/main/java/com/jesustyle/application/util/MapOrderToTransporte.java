@@ -2,7 +2,6 @@ package com.jesustyle.application.util;
 
 import com.jesustyle.application.entidade.pagamento.Items;
 import com.jesustyle.application.entidade.pagamento.PedidoDTO;
-import com.jesustyle.application.entidade.pagarme.Order;
 import com.jesustyle.application.entidade.transporte.solicitar.request.*;
 import com.jesustyle.application.repository.entity.PedidoEntity;
 import org.springframework.stereotype.Service;
@@ -49,10 +48,10 @@ public class MapOrderToTransporte {
         if (!pedidoDto.getPayments().isEmpty()) {
             var payment = pedidoDto.getPayments().get(0).getCredit_card().getCard().getBillingAddress();
 
-            String endereco = payment.getLine_1();
-            String numero = payment.getLine_1();
-            String complemento = payment.getLine_1();
-            String bairro = payment.getLine_1();
+            String endereco = payment.getLine1();
+            String numero = payment.getLine1();
+            String complemento = payment.getLine1();
+            String bairro = payment.getLine1();
 
             Endereco enderecoDestinatario = new Endereco(
                     !endereco.isEmpty() ? endereco : "",
@@ -67,8 +66,8 @@ public class MapOrderToTransporte {
             destinatario.setEndereco(enderecoDestinatario);
             destinatario.setContato(order.getCustomer().getName());
             destinatario.setEmail(order.getCustomer().getEmail());
-            destinatario.setTelefone(order.getCustomer().getPhones().getHome_phone().getArea_code() + order.getCustomer().getPhones().getHome_phone().getNumber());
-            destinatario.setCelular(order.getCustomer().getPhones().getHome_phone().getArea_code() + order.getCustomer().getPhones().getHome_phone().getNumber());
+            destinatario.setTelefone(order.getCustomer().getPhones().getHomePhone().getAreaCode() + order.getCustomer().getPhones().getHomePhone().getNumber());
+            destinatario.setCelular(order.getCustomer().getPhones().getHomePhone().getAreaCode() + order.getCustomer().getPhones().getHomePhone().getNumber());
             transporteRequest.setDestinatario(destinatario);
         }
 

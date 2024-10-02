@@ -1,7 +1,7 @@
 package com.jesustyle.application.service;
 
-import com.jesustyle.application.entidade.pagamento.Pedido;
 import com.jesustyle.application.entidade.pagarme.Order;
+import com.jesustyle.application.entidade.transporte.solicitar.request.Pedido;
 import com.jesustyle.application.repository.entity.PedidoEntity;
 
 import java.io.IOException;

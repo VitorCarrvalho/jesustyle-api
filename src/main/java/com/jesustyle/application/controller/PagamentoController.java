@@ -2,9 +2,9 @@ package com.jesustyle.application.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jesustyle.application.entidade.pagamento.Pedido;
 import com.jesustyle.application.entidade.pagamento.PedidoDTO;
 import com.jesustyle.application.entidade.pagarme.Order;
+import com.jesustyle.application.entidade.transporte.solicitar.request.Pedido;
 import com.jesustyle.application.service.PagamentoService;
 import com.jesustyle.application.service.TransporteService;
 import io.swagger.v3.oas.annotations.tags.Tag;

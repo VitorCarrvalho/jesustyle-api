@@ -9,35 +9,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "PedidoEntity")
+@Table(name = "pedido_entity")
 public class PedidoEntity {
 
     @Id
     private String id;
+
     private String code;
     private int amount;
     private String currency;
     private boolean closed;
+
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<Items> items;
 
     @ManyToOne
-    @JoinColumn(name = "idPedido", nullable = false)
+    @JoinColumn(name = "id_customer", nullable = false)
     private Customer customer;
+
     private String status;
-    private String created_at;
-    private String updated_at;
-    private String closed_at;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime closedAt;
+
+    @OneToMany(mappedBy = "pedidoEntity") // Ensure this matches the property in Charge
     private List<Charge> charges;
-    private List<Object> checkouts;
+
 }
-
-
-

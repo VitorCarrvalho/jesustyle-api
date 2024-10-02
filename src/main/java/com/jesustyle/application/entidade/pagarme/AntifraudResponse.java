@@ -1,8 +1,7 @@
 package com.jesustyle.application.entidade.pagarme;
 
-
- 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class antifraud_response {
+@Embeddable // Ensure this annotation is here
+public class AntifraudResponse { // Use uppercase 'A'
 
     private String status;
     private String score;
-    private String provider_name;
-
+    private String providerName; // Use camelCase for fields
 }
