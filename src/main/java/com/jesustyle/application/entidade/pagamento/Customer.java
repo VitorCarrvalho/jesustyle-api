@@ -2,6 +2,7 @@ package com.jesustyle.application.entidade.pagamento;
 
  
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jesustyle.application.repository.entity.PedidoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +29,9 @@ public class Customer {
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
+    private PedidoEntity pedido;
+
+    @ManyToOne
+    @JoinColumn(name = "custumer", nullable = false)
     private Phones phones;
 }

@@ -21,6 +21,7 @@ import java.util.List;
 public class PedidoEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     private String code;
@@ -28,11 +29,11 @@ public class PedidoEntity {
     private String currency;
     private boolean closed;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Items> items;
 
     @ManyToOne
-    @JoinColumn(name = "id_customer", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     private Customer customer;
 
     private String status;
@@ -41,7 +42,7 @@ public class PedidoEntity {
     private LocalDateTime updatedAt;
     private LocalDateTime closedAt;
 
-    @OneToMany(mappedBy = "pedidoEntity") // Ensure this matches the property in Charge
+    @OneToMany(mappedBy = "id") // Ensure this matches the property in Charge
     private List<Charge> charges;
 
 }

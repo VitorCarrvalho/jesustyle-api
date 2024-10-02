@@ -19,6 +19,10 @@ public class Charge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
+    private PedidoEntity pedido;
+
     private String code;
 
     @Column(name = "gateway_id")
@@ -42,17 +46,12 @@ public class Charge {
     private String updatedAt; // Alterado para camelCase
 
     @ManyToOne
-    private Customer customer;
+    private LastTransaction lastTransaction;
 
-    @ManyToOne
-    private LastTransaction lastTransaction; // Nome correto da classe
 
-    @ManyToOne // Adicione isso para vincular de volta ao PedidoEntity
-    private PedidoEntity pedidoEntity; // Verifique se isso corresponde à referência em PedidoEntity
+    @Embedded
+    private GatewayResponse gatewayResponse;
 
-    @Embedded // Presumindo que gateway_response não é uma entidade
-    private GatewayResponse gatewayResponse; // Alterado para camelCase
-
-    @Embedded // Presumindo que antifraud_response não é uma entidade
-    private AntifraudResponse antifraudResponse; // Alterado para camelCase
+    @Embedded
+    private AntifraudResponse antifraudResponse;
 }

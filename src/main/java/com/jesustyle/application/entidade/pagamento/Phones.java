@@ -18,8 +18,10 @@ public class Phones {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "custumer_id") // Substitua por como você nomeou a chave estrangeira na tabela
+    @JoinColumn(name = "id") // Substitua por como você nomeou a chave estrangeira na tabela
     private Customer customer; // Altere de String para Customer
 
+    @ManyToOne
+    @JoinColumn(name = "id")
     private Phone homePhone; // Certifique-se de que Phone também está devidamente definido
 }

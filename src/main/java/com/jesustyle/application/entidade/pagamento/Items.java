@@ -1,7 +1,7 @@
 package com.jesustyle.application.entidade.pagamento;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.jesustyle.application.repository.entity.PedidoEntity; // Correct reference
+import com.jesustyle.application.repository.entity.PedidoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data

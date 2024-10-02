@@ -14,7 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Embeddable
+@Entity
+@Table(name = "Card")
 public class Card {
+
+    @Id
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private CreditCard creditCard;
 
     private String number;
     private String holderName;
