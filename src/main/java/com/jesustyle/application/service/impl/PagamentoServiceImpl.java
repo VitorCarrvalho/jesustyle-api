@@ -1,12 +1,17 @@
 package com.jesustyle.application.service.impl;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jesustyle.application.entidade.pagamento.Pedido;
 import com.jesustyle.application.entidade.pagarme.Order;
+import com.jesustyle.application.repository.PagamentoRepository;
+import com.jesustyle.application.repository.entity.PedidoEntity;
 import com.jesustyle.application.service.PagamentoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,19 +20,22 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Slf4j
 @Service
 public class PagamentoServiceImpl implements PagamentoService {
 
-
+    @Autowired
+    PagamentoRepository pagamentoRepository;
     private static final String PAGARME_API_URL = "https://api.pagar.me/core/v5/orders";
     private static final String AUTHORIZATION_KEY = "sk_test_4e27008e14c24164bad6e7fdbfdd9dee";
     private static final String AUTHORIZATION_KEY_BASE_64 = "c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZTo=";
 
     @Override
-    public Order criarPedido(Pedido pedido) throws IOException, InterruptedException {
+    public Order create(Pedido pedido, String idCliente) throws IOException, InterruptedException {
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -37,7 +45,6 @@ public class PagamentoServiceImpl implements PagamentoService {
 
         String pedidoString = mapper.writeValueAsString(pedido);
 
-        //c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZQ==
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.pagar.me/core/v5/orders"))
                 .header("accept", "application/json")
@@ -50,17 +57,59 @@ public class PagamentoServiceImpl implements PagamentoService {
         log.info("Pedido criado com sucesso: \n" + pedidoCriado);
 
         var retornoPagarme = mapper.readValue(pedidoCriado, Order.class);
+        var pedidoSalvo = savePedido(pedidoCriado, retornoPagarme, idCliente);
+
+        log.info("Pedido salvo com sucesso: {}", pedidoSalvo);
 
         return retornoPagarme;
     }
 
-    @Override
-    public Order consultaPedido(String idOrder) {
-        return null;
+    private Object savePedido(String retornoPagarme, Order retornoPagarmeObj, String idCliente) {
+        PedidoEntity entity = new PedidoEntity();
+        entity.setIdPedido(retornoPagarmeObj.getId());
+        entity.setBody(retornoPagarme);
+        entity.setIdCliente(idCliente);
+        var pedidoSalvo = pagamentoRepository.save(entity);
+
+        return pedidoSalvo;
     }
 
     @Override
-    public String cancelarPedido(String idPedido) {
+    public Order get(long idOrder) {
+        var retorno = pagamentoRepository.findById(idOrder);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(retorno, Order.class);
+    }
+
+    @Override
+    public List<Order> getPedidosByCliente(String idCliente) throws JsonProcessingException {
+        List<PedidoEntity> pedidos = pagamentoRepository.findAllByIdCliente(idCliente);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        List<Order> listaPedidos = new ArrayList<>();
+        for(PedidoEntity entity : pedidos){
+            listaPedidos.add(mapper.readValue(entity.getBody(), Order.class));
+        }
+
+        return listaPedidos;
+    }
+
+    @Override
+    public List<Order> list(List<Long> ids) {
+        List<PedidoEntity> pedidos = pagamentoRepository.findAllById(ids);
+        ObjectMapper mapper = new ObjectMapper();
+        List<Order> listaPedidos = new ArrayList<>();
+        for(PedidoEntity entity : pedidos){
+            listaPedidos.add(mapper.convertValue(entity, Order.class));
+        }
+
+        return listaPedidos;
+    }
+
+    @Override
+    public String cancel(String idPedido) {
         return null;
     }
 

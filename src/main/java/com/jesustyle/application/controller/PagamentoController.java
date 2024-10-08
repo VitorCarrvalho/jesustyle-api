@@ -1,10 +1,10 @@
 package com.jesustyle.application.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jesustyle.application.entidade.pagamento.Pedido;
 import com.jesustyle.application.entidade.pagamento.PedidoDTO;
-import com.jesustyle.application.entidade.pagarme.Order;
 import com.jesustyle.application.service.PagamentoService;
 import com.jesustyle.application.service.TransporteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,7 +42,7 @@ public class PagamentoController {
         Pedido pedido = mapper.convertValue(pedidoDto, Pedido.class);
 
         log.info("Iniciando um novo pagamento para o cliente: {}", idCliente);
-        var pedidoCriado = pagamento.criarPedido(pedido);
+        var pedidoCriado = pagamento.create(pedido, idCliente);
 
         Map<String, Object> retornoPagamento = new HashMap<>();
         retornoPagamento.put("pagamento", pedidoCriado);
@@ -56,8 +57,8 @@ public class PagamentoController {
     }
 
     @GetMapping("/pedido/{idPedido}")
-    public ResponseEntity<Object> consultaPedido(@RequestParam String idPedido) {
-        var pedidoCriado = pagamento.consultaPedido(idPedido);
+    public ResponseEntity<Object> consultaPedido(@RequestParam long idPedido) {
+        var pedidoCriado = pagamento.get(idPedido);
 
         if (Objects.nonNull(pedidoCriado)) {
             return new ResponseEntity<>(pedidoCriado, HttpStatus.CREATED);
@@ -65,9 +66,29 @@ public class PagamentoController {
         return new ResponseEntity<>("Erro ao consultar novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @GetMapping("/pedidos")
+    public ResponseEntity<Object> listaPedidos(@RequestBody List<Long> ids) {
+        var pedidoCriado = pagamento.list(ids);
+
+        if (Objects.nonNull(pedidoCriado)) {
+            return new ResponseEntity<>(pedidoCriado, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Erro ao consultar novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/pedidos/cliente")
+    public ResponseEntity<Object> listaPedidosCliente(@RequestParam String idCliente) throws JsonProcessingException {
+        var listaPedidos = pagamento.getPedidosByCliente(idCliente);
+
+        if (Objects.nonNull(listaPedidos)) {
+            return new ResponseEntity<>(listaPedidos, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Erro ao consultar novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @PutMapping("/pedido/cancelar/{idPedido}")
     public ResponseEntity<Object> cancelaPedido(@RequestParam String idPedido) {
-        var pedidoCriado = pagamento.consultaPedido(idPedido);
+        var pedidoCriado = pagamento.cancel(idPedido);
 
         if (Objects.nonNull(pedidoCriado)) {
             return new ResponseEntity<>(pedidoCriado, HttpStatus.ACCEPTED);
