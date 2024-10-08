@@ -8,6 +8,7 @@ import com.jesustyle.application.entidade.pagarme.Order;
 import com.jesustyle.application.service.PagamentoService;
 import com.jesustyle.application.service.TransporteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/pagamento")
 @CrossOrigin(origins = "https://jesustyleoficial.com.br", allowCredentials = "true")
@@ -34,19 +37,20 @@ public class PagamentoController {
     private ObjectMapper mapper;
 
     @PostMapping("/pedido")
-    public ResponseEntity<Object> pedido(@RequestBody PedidoDTO pedidoDto) throws IOException, InterruptedException {
+    public ResponseEntity<Object> pedido(@RequestHeader("idCliente") String idCliente, @RequestBody PedidoDTO pedidoDto) throws IOException, InterruptedException {
         Pedido pedido = mapper.convertValue(pedidoDto, Pedido.class);
 
+        log.info("Iniciando um novo pagamento para o cliente: {}", idCliente);
         var pedidoCriado = pagamento.criarPedido(pedido);
 
         Map<String, Object> retornoPagamento = new HashMap<>();
         retornoPagamento.put("pagamento", pedidoCriado);
 
-        if (Objects.nonNull(pedidoCriado) && pedidoCriado.getStatus().equals("paid")) {
-            var retornoTransporte = transporteService.solicitar(pedidoCriado, pedidoDto.getReferencia(), pedidoDto);
-            retornoPagamento.put("transporte", retornoTransporte);
-            return new ResponseEntity<>(retornoPagamento, HttpStatus.CREATED);
-        }
+//        if (Objects.nonNull(pedidoCriado) && pedidoCriado.getStatus().equals("paid")) {
+//            var retornoTransporte = transporteService.solicitar(pedidoCriado, pedidoDto.getReferencia(), pedidoDto);
+//            retornoPagamento.put("transporte", retornoTransporte);
+//            return new ResponseEntity<>(retornoPagamento, HttpStatus.CREATED);
+//        }
 
         return new ResponseEntity<>("Erro ao processo novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
     }

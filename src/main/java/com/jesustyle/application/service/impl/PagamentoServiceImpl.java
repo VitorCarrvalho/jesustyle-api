@@ -37,16 +37,17 @@ public class PagamentoServiceImpl implements PagamentoService {
 
         String pedidoString = mapper.writeValueAsString(pedido);
 
+        //c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZQ==
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.pagar.me/core/v5/orders"))
                 .header("accept", "application/json")
                 .header("content-type", "application/json")
-                .header("authorization", "Basic c2tfNTNiM2YzMzA2N2MyNDEwYmEwOWFiMWNmODA1OGE4MWY=")
+                .header("authorization", "Basic c2tfdGVzdF80ZTI3MDA4ZTE0YzI0MTY0YmFkNmU3ZmRiZmRkOWRlZTo=")
                 .method("POST", HttpRequest.BodyPublishers.ofString(pedidoString))
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         var pedidoCriado = response.body();
-        log.info("Pedido criado com sucesso: " + pedidoCriado);
+        log.info("Pedido criado com sucesso: \n" + pedidoCriado);
 
         var retornoPagarme = mapper.readValue(pedidoCriado, Order.class);
 
