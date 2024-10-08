@@ -2,6 +2,7 @@ package com.jesustyle.application.entidade.pagarme;
 
  
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jesustyle.application.entidade.pagamento.Customer;
 import com.jesustyle.application.entidade.pagamento.Items;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,8 @@ public class Order {
     private String created_at;
     private String updated_at;
     private String closed_at;
+
+    @JsonProperty("charges")
     private List<Charge> charges;
     private List<Object> checkouts;
 }

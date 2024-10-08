@@ -3,6 +3,7 @@ package com.jesustyle.application.entidade.pagarme;
 
  
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jesustyle.application.entidade.pagamento.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +26,6 @@ public class Charge {
     private String created_at;
     private String updated_at;
     private Customer customer;
+    @JsonProperty("last_transaction")
     private last_transaction lastTransaction;
 }

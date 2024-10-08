@@ -34,4 +34,9 @@ public class last_transaction {
     private gateway_response gateway_response;
     private antifraud_response antifraud_response;
     private Object metadata;
+    private String pix_provider_tid;
+    private String qr_code;
+    private String qr_code_url;
+    private String expires_at;
+
 }
