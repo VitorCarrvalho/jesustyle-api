@@ -51,8 +51,8 @@ public class PagamentoController {
 //            retornoPagamento.put("transporte", retornoTransporte);
 //            return new ResponseEntity<>(retornoPagamento, HttpStatus.CREATED);
 //        }
-
-        return new ResponseEntity<>("Erro ao processo novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(retornoPagamento, HttpStatus.CREATED);
+        //return new ResponseEntity<>("Erro ao processo novo pedido", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/pedido/{idPedido}")
